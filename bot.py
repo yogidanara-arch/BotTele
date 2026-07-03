@@ -1,7 +1,8 @@
+import os
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, ContextTypes, filters
 
-TOKEN = 8944265015:AAHIuHZX9zLAbUe5Q2Mw5RMIqbzSK6_tLDI
+TOKEN = os.getenv(8944265015:AAHIuHZX9zLAbUe5Q2Mw5RMIqbzSK6_tLDI)
 
 async def hitung(update: Update, context: ContextTypes.DEFAULT_TYPE):
     pesan = update.message.text.strip()
@@ -9,13 +10,13 @@ async def hitung(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         mm = float(pesan)
 
-        if 0 <= mm <= 20:
+        if mm <= 20:
             menit = 130
-        elif 21 <= mm <= 40:
+        elif mm <= 40:
             menit = 216
-        elif 41 <= mm <= 60:
+        elif mm <= 60:
             menit = 270
-        elif 61 <= mm <= 80:
+        elif mm <= 80:
             menit = 295
         else:
             menit = 330
@@ -24,15 +25,15 @@ async def hitung(update: Update, context: ContextTypes.DEFAULT_TYPE):
         sisa = menit % 60
 
         await update.message.reply_text(
-            f"""🌧 Curah Hujan : {mm} mm
+            f"""🌧 Curah Hujan : {mm:.0f} mm
 
 ⏱ Durasi : {menit} menit
 🕒 Setara : {jam} jam {sisa} menit"""
         )
 
-    except:
+    except ValueError:
         await update.message.reply_text(
-            "Silakan masukkan angka saja.\n\nContoh:\n35"
+            "Masukkan angka curah hujan.\n\nContoh:\n35"
         )
 
 app = ApplicationBuilder().token(TOKEN).build()
